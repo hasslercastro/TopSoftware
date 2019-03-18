@@ -12,7 +12,7 @@ import java.util.List;
 public class SQLItemsDAO implements ItemsDAO {
 
     final String INSERT = "INSERT INTO items(idTipoItem, descripcion, valorUnidad) VALUES( ?, ?, ?)";
-    final String UPDATE = "UPDATE items SET idTipoItem = ? , description = ? , valorUnidad = ? WHERE idItem = ? ";
+    final String UPDATE = "UPDATE items SET idTipoItem = ? , descripcion = ? , valorUnidad = ? WHERE idItem = ? ";
     final String DELETE = "DELETE FROM items WHERE idItem = ? ";
     final String GETALL = "SELECT * FROM items";
     final String GETONE = "SELECT * FROM items WHERE idItem = ?";
