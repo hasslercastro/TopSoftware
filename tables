@@ -1,0 +1,45 @@
+
+CREATE TABLE IF NOT EXISTS clientes (
+    cliente_id INT AUTO_INCREMENT,
+    nombres VARCHAR(45) NOT NULL,
+    apellidos VARCHAR(45) NOT NULL,
+    genero VARCHAR(45) NOT NULL,
+    fechaNacimiento DATE,
+    estadoCivil VARCHAR(10) NOT NULL,
+    PRIMARY KEY (cliente_id)
+) 
+
+CREATE TABLE IF NOT EXISTS items (
+    idItem INT AUTO_INCREMENT,
+    descripcion VARCHAR(45) NOT NULL,
+    valorUnidad INT NOT NULL,
+    idTipoItem INT NOT NULL,
+    FOREIGN KEY (idTipoItem) REFERENCES tipoItem(idTipo),
+    PRIMARY KEY (idItem)
+);
+
+CREATE TABLE IF NOT EXISTS tipoItem (
+    idTipo INT AUTO_INCREMENT,
+    descripcion VARCHAR(45) NOT NULL,
+    PRIMARY KEY (idTipo)
+);
+
+CREATE TABLE IF NOT EXISTS detalleFactura (
+    FacturaID INT,
+    ItemID INT,
+    FOREIGN KEY (FacturaID) REFERENCES Factura(idFactura),
+    FOREIGN KEY (ItemID) REFERENCES items(idItem)
+);
+
+
+CREATE TABLE IF NOT EXISTS Factura (
+    idFactura INT AUTO_INCREMENT,
+    fechaFactura DATE,
+    totalFactura INT,
+    estado VARCHAR(50) NOT NULL,
+    ClienteID INT,
+    FOREIGN KEY (ClienteID) REFERENCES clientes(cliente_id),
+    PRIMARY KEY (idFactura)
+);
+    
+

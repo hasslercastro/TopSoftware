@@ -80,10 +80,10 @@ public class SQLClienteDAO implements ClienteDAO {
             statement.setInt(1, id);
 
             if(statement.executeUpdate() == 0 ){
-                throw new DAOException("No se ha añadido el cliente");
+                throw new DAOException("No se ha eliminado el cliente");
             }
         } catch (SQLException e) {
-            throw new DAOException("No se puede agregar el cliente", e);
+            throw new DAOException("No se puede eliminar el cliente", e);
         } catch (DAOException e) {
             e.printStackTrace();
         } finally {

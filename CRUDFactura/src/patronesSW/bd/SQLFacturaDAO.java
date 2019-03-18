@@ -17,7 +17,7 @@ public class SQLFacturaDAO implements FacturaDAO {
     final String GETALL = "SELECT * FROM Factura";
     final String GETONE = "SELECT * FROM Factura WHERE idFactura = ?";
 
-    final String GET_FOR_ARRAY = "SELECT ItemID FROM detalleFacztura WHERE FacturaID = ?";
+    final String GET_FOR_ARRAY = "SELECT ItemID FROM detalleFactura WHERE FacturaID = ?";
     final String INSERT_ARRAY = "INSERT INTO detalleFactura (FacturaID, ItemID) VALUES (?, ?)";
 
     private Connection connection;
