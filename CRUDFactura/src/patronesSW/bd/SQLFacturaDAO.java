@@ -18,7 +18,7 @@ public class SQLFacturaDAO implements FacturaDAO {
     final String GETALL = "SELECT * FROM Factura";
     final String GETONE = "SELECT * FROM Factura WHERE idFactura = ?";
 
-    final String GET_FOR_ARRAY = "SELECT ItemID FROM detalleFactura WHERE FacturaID = ?";
+    final String GET_FOR_ARRAY = "SELECT * FROM detalleFactura WHERE FacturaID = ?";
     final String INSERT_ARRAY = "INSERT INTO detalleFactura (FacturaID, ItemID) VALUES (?, ?)";
     final String LAST_REG = "SELECT * FROM Factura  ORDER BY idFactura DESC LIMIT 1";
 
@@ -134,6 +134,7 @@ public class SQLFacturaDAO implements FacturaDAO {
 
         try{
             statement = connection.prepareStatement(GET_FOR_ARRAY);
+            statement.setInt(1, id);
             rs = statement.executeQuery();
             while (rs.next()){
                 items.add(rs.getInt("ItemID"));

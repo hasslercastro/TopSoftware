@@ -248,7 +248,7 @@ public class Main {
     }
 
     public static Factura conseguirFactura(){
-
+        sc.nextLine();
         System.out.println("Ingrese fecha");
         String date = sc.nextLine();
         System.out.println("Ingrese id del cliente");
@@ -279,7 +279,7 @@ public class Main {
 
         manager = new DAOManagerSQL("localhost", "root", "1234", "swfacturas");
         sc = new Scanner(System.in);
-
+/*
 
         List<Integer> it = new ArrayList<>();
         it.add(1);
@@ -287,9 +287,9 @@ public class Main {
         Factura f = new Factura(new Date("11/2/1998"), 2, 2000, "Pagada", it);
 
         manager.getFacturaDAO().insertar(f);
+*/
 
 
-        /*
         System.out.println("Bienvenido al sistema TIENDA, elija una opcion:" +
                 "1. Cliente" +
                 "2. Tipo de Item" +
@@ -317,7 +317,7 @@ public class Main {
                 System.out.println("Elija correctamente ");
 
         }
-    }*/
     }
-
 }
+
+
