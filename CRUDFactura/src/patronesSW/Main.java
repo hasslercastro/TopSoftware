@@ -5,10 +5,7 @@ import patronesSW.clases.Cliente;
 import patronesSW.clases.Factura;
 import patronesSW.clases.Items;
 import patronesSW.clases.tipoItem;
-import patronesSW.dao.ClienteDAO;
-import patronesSW.dao.DAOException;
-import patronesSW.dao.ItemsDAO;
-import patronesSW.dao.tipoItemDAO;
+import patronesSW.dao.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -202,6 +199,82 @@ public class Main {
 
     }
 
+    public static void funcionFactura() throws DAOException {
+        FacturaDAO facturaDAO = manager.getFacturaDAO();
+        System.out.println("1. Añadir Factura" +
+                "2. Eliminar Factura" +
+                "3. Actualizar Factura" +
+                "4. Listar Factura" +
+                "5. Listar (1) Factura especificada por id" +
+                "6. Salir");
+
+        int opcion = sc.nextInt();
+
+        switch (opcion){
+
+            case 1:
+                Factura f = conseguirFactura();
+                facturaDAO.insertar(f);
+                break;
+            case 2:
+                System.out.println("Va a eliminar una factura, inserte id de la factura");
+                int idC = sc.nextInt();
+                facturaDAO.eliminar(idC);
+                break;
+            case 3:
+                System.out.println("Va actualizar una factura");
+                System.out.println("Ingrese el Id de la factura");
+                int id = sc.nextInt();
+                Factura c = conseguirFactura();
+                c.setNroFactura(id);
+                facturaDAO.modificar(c);
+                break;
+            case 4:
+                System.out.println("listando todas las facturas");
+                for(Factura t : facturaDAO.obtenerTodos()){
+                    System.out.println(t.toString());
+                }
+                break;
+            case 5:
+                System.out.println("Ingrese el ID de la factura a listar");
+                int idFact = sc.nextInt();
+                System.out.println(facturaDAO.obtener(idFact).toString());
+                break;
+            case 6:
+                break;
+        }
+
+
+    }
+
+    public static Factura conseguirFactura(){
+
+        System.out.println("Ingrese fecha");
+        String date = sc.nextLine();
+        System.out.println("Ingrese id del cliente");
+        int idcliente = sc.nextInt();
+        System.out.println("Ingrese el valor total factura");
+        sc.nextLine();
+        int valorFactura = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Ingrese el estado de factura");
+        String estado = sc.nextLine();
+        System.out.println("Ingrese el numero de items");
+        int nItems = sc.nextInt();
+        sc.nextLine();
+        List<Integer> li = new ArrayList<>();
+        int d ;
+        for(int i = 1 ; i <= nItems ; i++){
+            System.out.println("Ingrese id del item numero " + i );
+             d  = sc.nextInt();
+             li.add(d);
+        }
+
+        Factura factura = new Factura(new Date(date), idcliente, valorFactura, estado, li);
+        return factura;
+
+    }
+
     public static void main(String[] args) throws SQLException, DAOException {
 
         manager = new DAOManagerSQL("localhost", "root", "1234", "swfacturas");
@@ -237,7 +310,7 @@ public class Main {
                 funcionItem();
                 break;
             case 4:
-                break;
+                funcionFactura();
             case 5:
                 break;
             default:
