@@ -1,6 +1,7 @@
 package patronesSW.bd;
 
 import patronesSW.clases.Factura;
+import patronesSW.dao.DAO;
 import patronesSW.dao.DAOException;
 import patronesSW.dao.FacturaDAO;
 import patronesSW.dao.finalException;
@@ -19,6 +20,8 @@ public class SQLFacturaDAO implements FacturaDAO {
 
     final String GET_FOR_ARRAY = "SELECT ItemID FROM detalleFactura WHERE FacturaID = ?";
     final String INSERT_ARRAY = "INSERT INTO detalleFactura (FacturaID, ItemID) VALUES (?, ?)";
+    final String LAST_REG = "SELECT * FROM Factura  ORDER BY idFactura DESC LIMIT 1";
+
 
     private Connection connection;
 
@@ -29,6 +32,7 @@ public class SQLFacturaDAO implements FacturaDAO {
     @Override
     public void insertar(Factura factura) throws DAOException {
         PreparedStatement statement = null;
+        PreparedStatement statement2 = null;
         try{
             statement = connection.prepareStatement(INSERT);
             statement.setDate(1, new Date(factura.getFechaFactura().getTime()));
@@ -44,9 +48,21 @@ public class SQLFacturaDAO implements FacturaDAO {
             finalException.exception(statement);
         }
 
-        for( int it : factura.getItems()){
-            insertarTablaDetalles(it, factura.getNroFactura());
+        try{
+            statement2 = connection.prepareStatement(LAST_REG);
+            ResultSet rs = statement2.executeQuery();
+            if(rs.next()) {
+                int valueFactura = rs.getInt("idFactura");
+                for( int it : factura.getItems()){
+                    insertarTablaDetalles(it, valueFactura);
+                }
+            }
+        }catch (SQLException e){
+            throw new DAOException("Error al cargar reg" , e);
+        } finally {
+            finalException.exception(statement2);
         }
+
 
     }
 
