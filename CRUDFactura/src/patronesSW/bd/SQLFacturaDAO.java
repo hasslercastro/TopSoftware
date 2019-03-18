@@ -89,7 +89,7 @@ public class SQLFacturaDAO implements FacturaDAO {
     public void modificar(Factura factura) throws DAOException {
         PreparedStatement statement = null;
         try{
-            statement = connection.prepareStatement(INSERT);
+            statement = connection.prepareStatement(UPDATE);
             statement.setDate(1, new Date(factura.getFechaFactura().getTime()));
             statement.setInt(2,  factura.getTotalFactura());
             statement.setString(3, factura.getEstado());
