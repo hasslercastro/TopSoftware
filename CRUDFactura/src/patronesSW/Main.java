@@ -3,8 +3,10 @@ package patronesSW;
 import patronesSW.bd.DAOManagerSQL;
 import patronesSW.clases.Cliente;
 import patronesSW.clases.Factura;
+import patronesSW.clases.tipoItem;
 import patronesSW.dao.ClienteDAO;
 import patronesSW.dao.DAOException;
+import patronesSW.dao.tipoItemDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -58,13 +60,14 @@ public class Main {
                 int idCliente = sc.nextInt();
                 System.out.println(cd.obtener(idCliente).toString());
                 break;
+            case 6:
+                break;
         }
     }
 
     public static Cliente conseguirCliente(){
         System.out.println("Va agregar un cliente");
         System.out.println("Ingrese nombres");
-        sc.nextLine();
         String nombre = sc.nextLine();
         System.out.println("Ingrese Apellidos");
         String apellido = sc.nextLine();
@@ -77,6 +80,64 @@ public class Main {
         Cliente cliente = new Cliente(nombre,apellido,genero, new Date(fechaNac), estadoCivil);
         return cliente;
     }
+
+    public static void functionTipoItem() throws DAOException {
+        tipoItemDAO tipi = manager.getTipoItemDAO();
+        System.out.println("1. Añadir tipo item" +
+                "2. Eliminar tipo item" +
+                "3. Actualizar tipo item" +
+                "4. Listar tipos de item" +
+                "5. Listar (1) tipo de item especificado por id" +
+                "6. Salir");
+
+        int opcion = sc.nextInt();
+
+        switch (opcion){
+
+            case 1:
+                tipoItem ti = conseguirTipoItem();
+                tipi.insertar(ti);
+                break;
+            case 2:
+                System.out.println("Va a eliminar un tipo de item, inserte id del tipo de item");
+                int idC = sc.nextInt();
+                tipi.eliminar(idC);
+                break;
+            case 3:
+                System.out.println("Va actualizar el tipo de item");
+                System.out.println("Ingrese el Id del tipo de item");
+                int id = sc.nextInt();
+                tipoItem c = conseguirTipoItem();
+                c.setId(id);
+                tipi.modificar(c);
+                break;
+            case 4:
+                System.out.println("listando todos los tipos de item");
+                for(tipoItem t : tipi.obtenerTodos()){
+                    System.out.println(t.toString());
+                }
+                break;
+            case 5:
+                System.out.println("Ingrese el Id del tipo de item a listar");
+                int idTipoItem = sc.nextInt();
+                System.out.println(tipi.obtener(idTipoItem).toString());
+                break;
+            case 6:
+                break;
+        }
+
+
+
+    }
+
+    public static tipoItem conseguirTipoItem(){
+        sc.nextLine(); //botar backslash n
+        System.out.println("Escriba la descripcion del tipo de item");
+        String desc = sc.nextLine();
+        tipoItem tipoItem = new tipoItem(desc);
+        return tipoItem;
+    }
+
     public static void main(String[] args) throws SQLException, DAOException {
 
         manager = new DAOManagerSQL("localhost", "root", "1234", "swfacturas");
@@ -94,16 +155,19 @@ public class Main {
 
         System.out.println("Bienvenido al sistema TIENDA, elija una opcion:" +
                 "1. Cliente" +
-                "2. Items" +
-                "3. Tipo de Item" +
+                "2. Tipo de Item" +
+                "3. Item" +
                 "4. Factura" +
                 "5. Salir");
         int opcion = sc.nextInt();
+        sc.nextLine(); //botar salto de linea
+
         switch (opcion){
             case 1:
                 funcionCliente();
                 break;
             case 2:
+                functionTipoItem();
                 break;
             case 3:
                 break;
