@@ -3,9 +3,11 @@ package patronesSW;
 import patronesSW.bd.DAOManagerSQL;
 import patronesSW.clases.Cliente;
 import patronesSW.clases.Factura;
+import patronesSW.clases.Items;
 import patronesSW.clases.tipoItem;
 import patronesSW.dao.ClienteDAO;
 import patronesSW.dao.DAOException;
+import patronesSW.dao.ItemsDAO;
 import patronesSW.dao.tipoItemDAO;
 
 import java.sql.SQLException;
@@ -138,6 +140,68 @@ public class Main {
         return tipoItem;
     }
 
+    public static void funcionItem() throws DAOException {
+        ItemsDAO itemsD = manager.getItemsDAO();
+        System.out.println("1. Añadir item" +
+                "2. Eliminar item" +
+                "3. Actualizar item" +
+                "4. Listar items" +
+                "5. Listar (1) item especificado por id" +
+                "6. Salir");
+
+        int opcion = sc.nextInt();
+
+        switch (opcion){
+
+            case 1:
+                Items ti = conseguirItem();
+                itemsD.insertar(ti);
+                break;
+            case 2:
+                System.out.println("Va a eliminar un item, inserte id del item");
+                int idC = sc.nextInt();
+                itemsD.eliminar(idC);
+                break;
+            case 3:
+                System.out.println("Va actualizar un item");
+                System.out.println("Ingrese el Id del item");
+                int id = sc.nextInt();
+                Items c = conseguirItem();
+                c.setIdItem(id);
+                itemsD.modificar(c);
+                break;
+            case 4:
+                System.out.println("listando todos los tipos de item");
+                for(Items t : itemsD.obtenerTodos()){
+                    System.out.println(t.toString());
+                }
+                break;
+            case 5:
+                System.out.println("Ingrese el Id del tipo de item a listar");
+                int idItem = sc.nextInt();
+                System.out.println(itemsD.obtener(idItem).toString());
+                break;
+            case 6:
+                break;
+        }
+
+    }
+
+    public static Items conseguirItem(){
+
+        System.out.println("Ingrese id del tipo de item");
+        int idTipoItem = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Inserte descripcion del item");
+        String desc = sc.nextLine();
+        System.out.println("Inserte valor de la unidad x item");
+        int valor = sc.nextInt();
+        sc.nextLine();
+        Items items = new Items(idTipoItem, desc, valor);
+        return items;
+
+    }
+
     public static void main(String[] args) throws SQLException, DAOException {
 
         manager = new DAOManagerSQL("localhost", "root", "1234", "swfacturas");
@@ -170,6 +234,7 @@ public class Main {
                 functionTipoItem();
                 break;
             case 3:
+                funcionItem();
                 break;
             case 4:
                 break;
