@@ -52,10 +52,12 @@ public class Main {
                 for(Cliente cliente : cd.obtenerTodos()){
                     System.out.println(cliente.toString());
                 }
+                break;
             case 5:
                 System.out.println("Ingrese el Id del cliente a listar");
                 int idCliente = sc.nextInt();
-                cd.obtener(idCliente);
+                System.out.println(cd.obtener(idCliente).toString());
+                break;
         }
     }
 
